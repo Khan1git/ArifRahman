@@ -19,6 +19,28 @@ export default function CertificatesPage() {
       color: "text-red-400",
     },
     {
+      name: "Api Fundamentals",
+      issuer: "ApiSec University",
+      year: "2025",
+      description: "Mastered core API security fundamentals: API discovery and enumeration, vulnerability identification, and remediation workflows.",
+      skills: ["Penetration Testing", "Api Security", "Api Hacking", "Api Top 10", "Security", "Web Application Security"],
+      credentialId: "ECC-CEH-2024-001234",
+      verifyUrl: "#",
+      icon: Shield,
+      color: "text-red-400",
+    },
+    {
+      name: "Api Pentesting",
+      issuer: "ApiSec University",
+      year: "2025",
+      description: "Performed hands-on API penetration testing with Burp Suite and Postman: BOLA, BAFLA, mass assignment and the OWASP API Top 10. ",
+      skills: ["Penetration Testing", "Api Security", "Api Hacking", "Api Top 10", "Web Application Security"],
+      credentialId: "ECC-CEH-2024-001234",
+      verifyUrl: "#",
+      icon: Shield,
+      color: "text-red-400",
+    },
+    {
       name: "The Ultimate Bug Bounty",
       issuer: "ZTM Security",
       year: "2023",
@@ -115,15 +137,15 @@ export default function CertificatesPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-primary mb-2">6</h3>
+            <h3 className="text-3xl font-bold text-primary mb-2">8</h3>
             <p className="text-muted-foreground">Total Certifications</p>
           </div>
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-primary mb-2">3</h3>
+            <h3 className="text-3xl font-bold text-primary mb-2">5</h3>
             <p className="text-muted-foreground">Security Focused</p>
           </div>
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-primary mb-2">2024</h3>
+            <h3 className="text-3xl font-bold text-primary mb-2">2025</h3>
             <p className="text-muted-foreground">Latest Achievement</p>
           </div>
           <div className="text-center">

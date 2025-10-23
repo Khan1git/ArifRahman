@@ -24,14 +24,14 @@ export default function ContactPage() {
     {
       icon: MapPin,
       label: "Pakistan",
-      value: "Pak N/A, N/A",
+      value: "Pakistan",
       href: "#",
     },
     {
       icon: Globe,
       label: "Website",
-      value: "alexchen.dev",
-      href: "https://alexchen.dev",
+      value: "Arif Rahman",
+      href: "https://arif-rahman.vercel.app/",
     },
   ]
 
@@ -45,7 +45,7 @@ export default function ContactPage() {
     {
       icon: Linkedin,
       label: "LinkedIn",
-      href: "www.linkedin.com/in/arif-rahman-84b1a2262",
+      href: "https://www.linkedin.com/in/arif-rahman-84b1a2262/",
       username: "Arif Rahman",
     },
     {
@@ -110,7 +110,7 @@ export default function ContactPage() {
                       <label className="block text-sm font-medium mb-2">Email *</label>
                       <Input
                         type="email"
-                        placeholder="your.email@example.com"
+                        placeholder="arifrahman1k7@gmail.com"
                         className="bg-input border-border focus:border-primary focus:ring-primary"
                       />
                     </div>
@@ -196,6 +196,8 @@ export default function ContactPage() {
                     <a
                       key={social.label}
                       href={social.href}
+                      target="_blank" 
+                      rel="noopener noreferrer"
                       className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary transition-colors group"
                     >
                       <Icon className="w-5 h-5 text-primary" />

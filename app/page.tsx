@@ -116,7 +116,7 @@ export default function HomePage() {
               <p className="text-muted-foreground">Years Experience</p>
             </div>
             <div>
-              <h3 className="text-3xl md:text-4xl font-bold text-primary mb-2">6</h3>
+              <h3 className="text-3xl md:text-4xl font-bold text-primary mb-2">8</h3>
               <p className="text-muted-foreground">Certifications</p>
             </div>
           </div>
