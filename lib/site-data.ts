@@ -44,10 +44,10 @@ export const languages = [
 /* Only real, verifiable numbers from the source data. */
 export const homeStats = [
   {
-    value: "1+",
+    value: "2+",
     label: "Years in production",
     detail:
-      "Building and testing production web applications since April 2025.",
+      "Building and testing production web applications since 2024, including freelance work.",
   },
   {
     value: "90+",
