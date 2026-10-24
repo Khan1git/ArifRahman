@@ -33,7 +33,7 @@ export default function HowIWorkPage() {
         <div className="max-w-3xl">
           <Reveal>
             <p className="text-pretty text-lg leading-relaxed sm:text-xl">
-              This page is the honest version of how I work — the process
+              How I work — the process
               behind every engagement, not a sales pitch. It covers two things
               separately: my testing methodology for web applications and APIs,
               and how I approach security for AI-integrated features, which is
