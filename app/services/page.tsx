@@ -1,3 +1,5 @@
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 import { CtaBand } from "@/components/cta-band"
 import { EditorialSection } from "@/components/editorial-section"
 import { PageHero } from "@/components/page-hero"
@@ -99,10 +101,19 @@ export default function ServicesPage() {
                 From first call to verified fix.
               </h2>
             </div>
-            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Every engagement follows the same five steps. Nothing gets tested
-              before it is agreed in writing.
-            </p>
+            <div className="max-w-sm">
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Every engagement follows the same five steps. Nothing gets
+                tested before it is agreed in writing.
+              </p>
+              <Link
+                href="/how-i-work"
+                className="mt-3 inline-flex items-center gap-1.5 text-sm text-primary transition-colors hover:text-primary/80"
+              >
+                Read the full methodology
+                <ArrowRight className="size-3.5" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
 
           <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">

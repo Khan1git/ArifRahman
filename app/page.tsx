@@ -10,7 +10,6 @@ const featuredFinding = caseStudies[0]
 
 const glanceRows = [
   { label: "Role", value: "Full Stack Developer & Web Security Researcher" },
-  { label: "Current", value: "Blackacre — Apr 2025 to present" },
   { label: "Focus", value: "Web & API security testing, secure development" },
   { label: "Education", value: "BS Information Technology — CGPA 3.58 / 4.00" },
   { label: "Certifications", value: "4 — Coursera, APISEC, Udemy, TCM Security" },

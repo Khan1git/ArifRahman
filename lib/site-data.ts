@@ -18,6 +18,7 @@ export const navItems = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
+  { href: "/how-i-work", label: "How I Work" },
   { href: "/work", label: "Work" },
   { href: "/resume", label: "Resume" },
   { href: "/contact", label: "Contact" },
@@ -27,6 +28,7 @@ export const footerLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
+  { href: "/how-i-work", label: "How I Work" },
   { href: "/work", label: "Work" },
   { href: "/resume", label: "Resume" },
   { href: "/contact", label: "Contact" },
@@ -45,7 +47,8 @@ export const homeStats = [
   {
     value: "1+",
     label: "Years in production",
-    detail: "Full stack development at Blackacre since April 2025.",
+    detail:
+      "Building and testing production web applications since April 2025.",
   },
   {
     value: "90+",
@@ -186,6 +189,97 @@ export const processSteps = [
     description:
       "After your fixes ship, each reported issue is re-tested and confirmed closed.",
   },
+] as const
+
+/* The /how-i-work methodology page — the full testing process. */
+export const testingMethodology = [
+  {
+    number: "01",
+    title: "Discovery & Scoping",
+    description:
+      "I start by understanding the application, its purpose, and what matters most — user data, payments, authentication. What is and isn't in scope is defined in writing before any testing begins.",
+  },
+  {
+    number: "02",
+    title: "Reconnaissance",
+    description:
+      "I map the application: pages, features, API endpoints, authentication flows and user roles. The goal is a clear picture of the attack surface before anything is tested.",
+  },
+  {
+    number: "03",
+    title: "Manual & Tool-Assisted Testing",
+    description:
+      "I test systematically against the OWASP Top 10 and beyond, using manual analysis alongside Burp Suite, OWASP ZAP, Nikto and Kali Linux. Manual testing matters most — scanners catch surface-level issues, but logic flaws like broken access control or subscription bypasses require thinking through how a feature could be misused.",
+  },
+  {
+    number: "04",
+    title: "Verification, Not Just Detection",
+    description:
+      "Every finding is manually verified before it is reported. I don't pass scanner output through as-is — if real impact can't be demonstrated, it doesn't go in the report as a confirmed issue.",
+  },
+  {
+    number: "05",
+    title: "Reporting",
+    description:
+      "Each finding is documented with what the issue is, how severe it is, what the real-world impact could be, and exactly how to fix it — written so both a developer and a non-technical stakeholder can understand it.",
+  },
+  {
+    number: "06",
+    title: "Remediation Support & Re-testing",
+    description:
+      "I work directly with the development team while fixes are made, and re-test every reported issue afterwards to confirm it is actually resolved — not just patched on the surface.",
+  },
+] as const
+
+export const aiSecurityFocus = [
+  {
+    title: "Prompt Injection Risks",
+    description:
+      "Whether user input can manipulate an AI feature into ignoring its intended instructions, leaking system prompts, or taking unintended actions.",
+  },
+  {
+    title: "Data Exposure Through AI Features",
+    description:
+      "Whether an AI-connected feature can be tricked into revealing data it shouldn't — other users' data, or internal application details.",
+  },
+  {
+    title: "Over-Permissioned AI Actions",
+    description:
+      "Where an AI feature can trigger real actions — sending data, calling APIs, modifying records — checking whether those actions are properly scoped and can't be abused through crafted input.",
+  },
+  {
+    title: "Output Handling",
+    description:
+      "Whether AI-generated content is properly sanitized before being displayed or used elsewhere in the app, so injected content can't become a new XSS or similar vector.",
+  },
+  {
+    title: "Integration-Level Review",
+    description:
+      "How AI API keys, rate limits and model access are handled in the application's architecture — a common area of misconfiguration.",
+  },
+] as const
+
+export const toolGroups = [
+  {
+    title: "Security testing",
+    tools: ["Burp Suite", "OWASP ZAP", "Nikto", "Kali Linux"],
+  },
+  {
+    title: "Development",
+    tools: ["Next.js", "React", "TypeScript", "Node.js", "Firebase"],
+  },
+  {
+    title: "AI integration",
+    tools: ["OpenAI API", "DALL·E", "Perplexity API"],
+  },
+] as const
+
+export const workingExpectations = [
+  "Clear scope and a written agreement before any testing starts.",
+  "Regular communication during the engagement — not silence until the final report.",
+  "A report you can act on, not just a vulnerability dump.",
+  "A free re-test after fixes are made.",
+  "Confidentiality: findings are never shared or published without explicit permission.",
 ] as const
 
 export const skillGroups = [

@@ -56,7 +56,7 @@ export default function WorkPage() {
   return (
     <>
       <PageHero
-        index="03"
+        index="04"
         label="Work"
         title="Real findings, explained in plain language."
         description="Four vulnerabilities identified in production web applications during security assessments — what was wrong, why it mattered, and how each one was fixed."

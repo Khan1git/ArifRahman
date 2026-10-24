@@ -207,7 +207,7 @@ export default function AboutPage() {
         </ul>
       </EditorialSection>
 
-      <EditorialSection number="04" label="Research">
+      <EditorialSection id="research" number="04" label="Research">
         <Reveal className="max-w-3xl">
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-lg font-semibold tracking-tight">
