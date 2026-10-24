@@ -16,7 +16,7 @@ import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata({
   title: "About",
   description:
-    "Full stack developer and web security researcher in Swat, Pakistan. BS in Information Technology, production security testing at Blackacre, and AI content-automation research.",
+    "Full stack developer and web security researcher. BS in Information Technology, production security testing at Blackacre, and AI content-automation research.",
   path: "/about",
 })
 
@@ -35,11 +35,10 @@ export default function AboutPage() {
           <div className="max-w-2xl">
             <Reveal>
               <p className="text-pretty text-lg leading-relaxed sm:text-xl">
-                I am a full stack developer and web security researcher based
-                in Swat, Pakistan. I hold a BS in Information Technology (CGPA
-                3.58/4.00), and I spend my working life on two sides of the
-                same problem: building modern web applications, and finding
-                the ways they can be broken.
+                I am a full stack developer and web security researcher. I
+                hold a BS in Information Technology, and I spend my working
+                life on two sides of the same problem: building modern web
+                applications, and finding the ways they can be broken.
               </p>
             </Reveal>
 
@@ -87,10 +86,9 @@ export default function AboutPage() {
           <Reveal className="grid gap-8 lg:sticky lg:top-28" delay={0.1}>
             <div>
               <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                Based in
+                Availability
               </h3>
-              <p className="mt-2 text-sm">Swat, Khyber Pakhtunkhwa, Pakistan</p>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-2 text-sm">
                 Available for remote and international work.
               </p>
             </div>

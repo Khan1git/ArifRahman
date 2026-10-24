@@ -81,12 +81,7 @@ export function SiteFooter() {
           <p className="text-xs text-muted-foreground">
             © {year} {site.name}. All rights reserved.
           </p>
-          <div className="flex items-center gap-3">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              {site.location.split(",")[0]}, Pakistan
-            </p>
-            <BackToTop />
-          </div>
+          <BackToTop />
         </div>
       </div>
     </footer>

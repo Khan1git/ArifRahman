@@ -4,7 +4,8 @@ import { CtaBand } from "@/components/cta-band"
 import { EditorialSection } from "@/components/editorial-section"
 import { PageHero } from "@/components/page-hero"
 import { Reveal } from "@/components/reveal"
-import { processSteps, servicesDetailed } from "@/lib/site-data"
+import { Button } from "@/components/ui/button"
+import { servicesDetailed } from "@/lib/site-data"
 import { pageMetadata } from "@/lib/page-metadata"
 
 export const metadata = pageMetadata({
@@ -89,48 +90,30 @@ export default function ServicesPage() {
         </EditorialSection>
       ))}
 
-      {/* How I Work */}
+      {/* How I work — teaser; the full methodology lives on its own page */}
       <section className="border-t border-border/60 bg-secondary/30">
-        <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-20 lg:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
-                How I work
-              </p>
-              <h2 className="mt-3 text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
-                From first call to verified fix.
-              </h2>
-            </div>
-            <div className="max-w-sm">
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Every engagement follows the same five steps. Nothing gets
-                tested before it is agreed in writing.
-              </p>
-              <Link
-                href="/how-i-work"
-                className="mt-3 inline-flex items-center gap-1.5 text-sm text-primary transition-colors hover:text-primary/80"
-              >
-                Read the full methodology
-                <ArrowRight className="size-3.5" aria-hidden="true" />
-              </Link>
-            </div>
+        <div className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-16 sm:py-20 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14 lg:px-8">
+          <div>
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+              How I work
+            </p>
+            <h2 className="mt-3 text-balance text-lg font-semibold leading-snug tracking-tight sm:text-xl">
+              From first call to verified fix.
+            </h2>
           </div>
-
-          <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
-            {processSteps.map((step, index) => (
-              <li key={step.number}>
-                <Reveal delay={index * 0.06} className="border-t-2 border-border pt-4">
-                  <p className="font-mono text-xs text-primary">{step.number}</p>
-                  <h3 className="mt-2 text-sm font-medium tracking-tight">
-                    {step.title}
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                    {step.description}
-                  </p>
-                </Reveal>
-              </li>
-            ))}
-          </ol>
+          <div className="max-w-2xl">
+            <p className="text-pretty leading-relaxed text-muted-foreground">
+              Every engagement follows the same sequence — scoped in writing
+              before anything is tested, manually verified findings, a
+              plain-language report, and a re-test after the fixes ship.
+            </p>
+            <Button asChild variant="outline" className="mt-6 h-11 gap-2 px-5">
+              <Link href="/how-i-work">
+                Read the full methodology
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 

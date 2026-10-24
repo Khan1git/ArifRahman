@@ -28,8 +28,8 @@ function ResumeSection({
   children: React.ReactNode
 }) {
   return (
-    <section className="grid gap-5 border-t border-border/60 py-10 first:border-t-0 first:pt-0 sm:grid-cols-[160px_minmax(0,1fr)] sm:gap-10">
-      <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+    <section className="grid gap-4 border-t border-border/60 py-12 first:border-t-0 first:pt-0 sm:grid-cols-[160px_minmax(0,1fr)] sm:gap-12 print:break-inside-avoid">
+      <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:pt-1">
         {label}
       </h2>
       <div>{children}</div>
@@ -44,9 +44,9 @@ export default function ResumePage() {
         index="05"
         label="Resume"
         title="Arif Rahman"
-        description="Full Stack Developer & Web Security Researcher — Swat, Pakistan. The complete resume, readable on the web."
+        description="Full Stack Developer & Web Security Researcher. The complete resume, readable on the web."
       >
-        <div className="mt-8 flex flex-wrap items-center gap-4 print:hidden">
+        <div className="mt-8 flex flex-wrap items-center gap-3 print:hidden">
           <Button asChild className="h-11 gap-2 px-6">
             <a
               href={site.resume}
@@ -62,22 +62,47 @@ export default function ResumePage() {
           </Button>
           <PrintButton />
         </div>
-        <p className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground print:hidden">
-          <Mail className="size-3.5" aria-hidden="true" />
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground print:hidden">
           <a
             href={`mailto:${site.email}`}
-            className="transition-colors hover:text-foreground"
+            className="inline-flex items-center gap-2 transition-colors hover:text-foreground"
           >
+            <Mail className="size-3.5" aria-hidden="true" />
             {site.email}
           </a>
-        </p>
+          <span aria-hidden="true" className="size-1 rounded-full bg-border" />
+          <a
+            href={site.github}
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            GitHub
+          </a>
+          <span aria-hidden="true" className="size-1 rounded-full bg-border" />
+          <a
+            href={site.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            LinkedIn
+          </a>
+        </div>
+
+        {site.resume === "#" ? (
+          <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground print:hidden">
+            PDF coming soon — Print / Save as PDF works today
+          </p>
+        ) : null}
       </PageHero>
 
       <div className="mx-auto w-full max-w-4xl px-6 py-16 sm:py-20 lg:px-8">
         <ResumeSection label="Summary">
-          <p className="max-w-2xl text-pretty leading-relaxed text-muted-foreground">
+          <p className="text-pretty leading-relaxed text-muted-foreground">
             Full Stack Developer and Web Security Researcher with a BS in
-            Information Technology (CGPA 3.58/4.00). Builds, tests and secures
+            Information Technology. Builds, tests and secures
             modern web applications using JavaScript frameworks, applies
             security principles throughout the development lifecycle, and has
             hands-on experience in live production testing, vulnerability
@@ -88,27 +113,25 @@ export default function ResumePage() {
         </ResumeSection>
 
         <ResumeSection label="Experience">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
             <div>
               <h3 className="text-lg font-semibold tracking-tight">
                 {experience.role}
               </h3>
-              <p className="mt-0.5 text-sm text-primary">
-                {experience.company}
-              </p>
+              <p className="mt-1 text-sm text-primary">{experience.company}</p>
             </div>
             <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
               {experience.period}
             </p>
           </div>
 
-          <div className="mt-6 grid gap-7">
+          <div className="mt-7 grid gap-8">
             {experience.groups.map((group) => (
               <div key={group.title}>
                 <h4 className="text-sm font-medium tracking-tight">
                   {group.title}
                 </h4>
-                <ul className="mt-2.5 grid gap-2">
+                <ul className="mt-3 grid gap-2.5">
                   {group.bullets.map((bullet) => (
                     <li
                       key={bullet}
@@ -126,20 +149,20 @@ export default function ResumePage() {
             ))}
           </div>
 
-          <p className="mt-6 border-t border-border/60 pt-4 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-8 border-t border-border/60 pt-5 text-sm leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground">Tooling: </span>
             {experience.tech.join(" · ")}
           </p>
         </ResumeSection>
 
         <ResumeSection label="Skills">
-          <div className="grid gap-7">
+          <div className="grid gap-8">
             {skillGroups.map((group) => (
               <div key={group.title}>
                 <h3 className="text-sm font-medium tracking-tight">
                   {group.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
                   {group.skills.join(", ")}
                 </p>
               </div>
@@ -148,7 +171,7 @@ export default function ResumePage() {
         </ResumeSection>
 
         <ResumeSection label="Education">
-          <ul className="grid gap-6">
+          <ul className="grid gap-8">
             {education.map((entry) => (
               <li key={entry.degree}>
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
@@ -159,7 +182,7 @@ export default function ResumePage() {
                     {entry.period}
                   </p>
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-1.5 text-sm text-muted-foreground">
                   {entry.institution} — {entry.location}
                 </p>
                 <p className="mt-1 text-sm">
@@ -172,7 +195,7 @@ export default function ResumePage() {
         </ResumeSection>
 
         <ResumeSection label="Certifications">
-          <ul className="grid gap-3">
+          <ul className="grid gap-4">
             {certifications.map((certification) => (
               <li
                 key={certification.name}
@@ -181,7 +204,7 @@ export default function ResumePage() {
                 <span className="text-sm font-medium">
                   {certification.name}
                 </span>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground sm:text-right">
                   {certification.issuer}
                 </span>
               </li>
@@ -198,17 +221,17 @@ export default function ResumePage() {
               {research.status}
             </span>
           </div>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
             {research.description}
           </p>
         </ResumeSection>
 
         <ResumeSection label="Conferences">
-          <ul className="grid gap-4">
+          <ul className="grid gap-5">
             {workshops.map((workshop) => (
               <li key={workshop.title}>
                 <p className="text-sm font-medium">{workshop.title}</p>
-                <p className="mt-0.5 text-sm text-muted-foreground">
+                <p className="mt-1 text-sm text-muted-foreground">
                   {workshop.venue} · {workshop.date}
                 </p>
               </li>

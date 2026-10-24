@@ -11,12 +11,6 @@ export const structuredData = {
       email: `mailto:${site.email}`,
       url: site.url,
       description: site.description,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Swat",
-        addressRegion: "Khyber Pakhtunkhwa",
-        addressCountry: "PK",
-      },
       alumniOf: {
         "@type": "CollegeOrUniversity",
         name: "University of Malakand",

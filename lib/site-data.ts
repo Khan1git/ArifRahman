@@ -1,7 +1,6 @@
 export const site = {
   name: "Arif Rahman",
   role: "Full Stack Developer & Web Security Researcher",
-  location: "Swat, Khyber Pakhtunkhwa, Pakistan",
   email: "arifrahman1k7@gmail.com",
   url: "https://arif-rahman.vercel.app",
   github: "https://github.com/khan1git",
@@ -11,7 +10,7 @@ export const site = {
   tagline:
     "I build modern web applications — and test them the way an attacker would.",
   description:
-    "Arif Rahman is a full stack developer and web security researcher based in Swat, Pakistan. He builds modern web applications with Next.js, React and TypeScript, and tests them the way an attacker would.",
+    "Arif Rahman is a full stack developer and web security researcher. He builds modern web applications with Next.js, React and TypeScript, and tests them the way an attacker would.",
 }
 
 export const navItems = [
@@ -158,39 +157,6 @@ export const servicesDetailed = [
   },
 ] as const
 
-export const processSteps = [
-  {
-    number: "01",
-    title: "Discovery call",
-    description:
-      "A free 15-minute call to understand your application, your stack and what you need tested.",
-  },
-  {
-    number: "02",
-    title: "Scope & written authorization",
-    description:
-      "Before any testing begins, the target, timing and rules of engagement are agreed in writing.",
-  },
-  {
-    number: "03",
-    title: "Testing",
-    description:
-      "Manual testing first, tools second. Every potential finding is verified before it goes into the report.",
-  },
-  {
-    number: "04",
-    title: "Reporting",
-    description:
-      "Each confirmed finding is rated by severity with clear impact, evidence and a practical fix.",
-  },
-  {
-    number: "05",
-    title: "Fix verification",
-    description:
-      "After your fixes ship, each reported issue is re-tested and confirmed closed.",
-  },
-] as const
-
 /* The /how-i-work methodology page — the full testing process. */
 export const testingMethodology = [
   {
@@ -261,8 +227,16 @@ export const aiSecurityFocus = [
 
 export const toolGroups = [
   {
-    title: "Security testing",
-    tools: ["Burp Suite", "OWASP ZAP", "Nikto", "Kali Linux"],
+    title: "Web application & API",
+    tools: ["Burp Suite", "OWASP ZAP", "curl", "ffuf", "dirb", "WhatWeb"],
+  },
+  {
+    title: "Network & infrastructure",
+    tools: ["Nmap", "subfinder", "Whois", "testssl.sh", "Nikto"],
+  },
+  {
+    title: "Exploitation & validation",
+    tools: ["Metasploit", "msfvenom", "Hydra", "MySQL", "Kali Linux"],
   },
   {
     title: "Development",

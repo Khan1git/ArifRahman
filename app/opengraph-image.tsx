@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og"
+import { site } from "@/lib/site-data"
 
 export const runtime = "edge"
 
@@ -82,7 +83,7 @@ export default function OpengraphImage() {
             </div>
           </div>
           <div style={{ fontSize: "20px", color: "#36BABA" }}>
-            Swat, Pakistan
+            {site.url.replace("https://", "")}
           </div>
         </div>
       </div>

@@ -29,7 +29,6 @@ export const metadata: Metadata = {
     "web application security",
     "API security",
     "OWASP Top 10",
-    "Pakistan",
   ],
   alternates: {
     canonical: "/",
