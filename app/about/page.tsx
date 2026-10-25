@@ -16,7 +16,7 @@ import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata({
   title: "About",
   description:
-    "Full stack developer and web security researcher. BS in Information Technology, production security testing at Blackacre, and AI content-automation research.",
+    "Full stack developer and web security researcher. BS in Information Technology, production security testing (auth, access control, SSRF, integrations), and AI content-automation research.",
   path: "/about",
 })
 
@@ -65,11 +65,13 @@ export default function AboutPage() {
               <Reveal delay={0.05}>
                 <p>
                   On the security side, I run live production testing with Burp
-                  Suite, OWASP ZAP, Nikto and Kali Linux. I have identified and
-                  documented real vulnerabilities in production applications —
-                  the anonymized write-ups are on the Work page — and worked
-                  directly with developers to remediate findings and verify
-                  that each fix actually closed the issue.
+                  Suite, OWASP ZAP, Nikto and Kali Linux. Recent assessments
+                  focused on authentication trust boundaries, access control,
+                  SSRF, fail-open integrations and XSS — the
+                  anonymized Critical write-ups are on the Work page, with
+                  methodology notes on the Blog. I work directly with developers
+                  to remediate findings and verify that each fix actually closed
+                  the issue.
                 </p>
               </Reveal>
               <Reveal delay={0.05}>

@@ -1,194 +1,309 @@
+export type BlogBlock =
+  | { type: "p"; text: string }
+  | { type: "h2"; text: string }
+  | { type: "ul"; items: string[] }
+  | { type: "ol"; items: string[] }
+  | { type: "callout"; text: string }
+
 export interface BlogPost {
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  date: string;
-  readTime: string;
-  category: string;
-  tags: string[];
-  author: {
-    name: string;
-    role: string;
-    avatar: string;
-  };
-  featured?: boolean;
+  slug: string
+  title: string
+  excerpt: string
+  date: string
+  readTime: string
+  category: string
+  tags: string[]
+  featured?: boolean
+  blocks: BlogBlock[]
 }
+
+const authorRole = "Full Stack Developer & Web Security Researcher"
+
+export const blogAuthor = {
+  name: "Arif Rahman",
+  role: authorRole,
+} as const
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "advanced-sql-injection-techniques-2024",
-    title: "Advanced SQL Injection Techniques in 2024",
+    slug: "how-i-test-authentication",
+    title: "How I Test Authentication — Beyond the Login Form",
     excerpt:
-      "Exploring modern SQL injection vectors, bypass techniques, and comprehensive prevention strategies for web applications in the current threat landscape.",
-    content: `
-      <h2>Introduction</h2><br/>
-<p>
-React is one of the most widely used frontend frameworks for building dynamic and interactive user interfaces.
-However, while developers often focus on performance and user experience, security considerations are sometimes overlooked.
-Neglecting security can lead to serious vulnerabilities, such as data leaks and compromised applications.
-</p><br/>
-
-<h2>Key Security Risks in React Applications</h2><br/>
-<p>
-When building React applications, developers must be aware of the common security risks that can affect their projects:
-</p>
-<ul>
-  <li><strong>Cross-Site Scripting (XSS):</strong> Occurs when untrusted data is injected into the DOM, allowing attackers to execute malicious scripts.</li>
-  <li><strong>Unsafe State Management:</strong> Storing sensitive data like tokens or passwords in client-side state or localStorage can expose them to attackers.</li>
-  <li><strong>Exposed API Keys:</strong> Hardcoding API keys in the frontend can lead to unauthorized access to backend services.</li>
-</ul><br/>
-
-<h2>How to Secure Your React Application</h2>
-<p>
-To safeguard your React app, follow these best practices:
-</p><br/>
-<ul>
-  <li><strong>Sanitize all user inputs:</strong> Use libraries like <code>DOMPurify</code> to clean data before rendering it in the DOM.</li>
-  <li><strong>Avoid dangerouslySetInnerHTML:</strong> This method bypasses React’s built-in XSS protection and should be avoided whenever possible.</li>
-  <li><strong>Use Environment Variables:</strong> Store API keys and sensitive information in environment variables, never in the frontend code.</li>
-  <li><strong>Implement CSP (Content Security Policy):</strong> Prevents the execution of malicious scripts by restricting allowed sources.</li>
-  <li><strong>Use HTTPS:</strong> Ensure all network requests and API communications are encrypted.</li>
-</ul><br/>
-
-<h2>Conclusion</h2>
-<p>
-Securing a React application requires a proactive approach. By implementing proper sanitization, avoiding risky practices, and protecting sensitive data,
-developers can create robust applications that safeguard user data and maintain trust.
-</p>
-
-    `,
-    date: "2024-01-15",
-    readTime: "8 min read",
-    category: "Security",
-    tags: ["SQL Injection", "Web Security", "OWASP", "Penetration Testing"],
-    author: {
-      name: "Arif Rahman",
-      role: "Cybersecurity Enthusiast",
-      avatar: "/images/authors/arif.jpg",
-    },
+      "A working login screen is not proof of a secure session. Here is how I test authentication the way an attacker would: tokens, trust boundaries, and what “logged in” actually means on the server.",
+    date: "2026-09-18",
+    readTime: "9 min read",
+    category: "Methodology",
+    tags: ["Authentication", "JWT", "Sessions", "Penetration Testing"],
     featured: true,
+    blocks: [
+      {
+        type: "p",
+        text: "Most applications look authenticated because a cookie is present and the UI shows a user menu. That is not enough. During assessments I treat authentication as a trust boundary: every privileged route must prove who the caller is — cryptographically — not merely that a cookie-shaped string exists.",
+      },
+      {
+        type: "callout",
+        text: "This post explains methodology only. It does not include exploit steps, payloads, or client-identifying details from any engagement.",
+      },
+      {
+        type: "h2",
+        text: "What “authenticated” should mean",
+      },
+      {
+        type: "p",
+        text: "A session or token is only trustworthy if the server verifies it the same way a library author intended: signature (or equivalent), algorithm pinning, expiry, and audience where applicable. Checks that only decode a payload and read claims like exp or a user id are not authentication — they are parsing.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Does every privileged handler verify the token, or only the middleware on some routes?",
+          "Can identity fields (user id, email, role) be taken from an unverified client-controlled value?",
+          "Do “mint token for this user” or “refresh file URL” endpoints trust that same weak check?",
+          "Are there native API routes that bypass the main auth gateway entirely?",
+        ],
+      },
+      {
+        type: "h2",
+        text: "How I approach an auth review",
+      },
+      {
+        type: "ol",
+        items: [
+          "Map every way the app decides someone is logged in — cookies, headers, local storage, BFF proxies, third-party identity providers.",
+          "Trace privileged actions: file access, identity minting, admin APIs, webhooks that write data.",
+          "Ask whether a forged or truncated token would still be accepted if only structure and expiry were checked.",
+          "Confirm that logout, rotation, and short-lived tokens actually invalidate previous access.",
+          "Document impact in plain language: account takeover, data exposure, or privilege escalation — not just “weak JWT handling.”",
+        ],
+      },
+      {
+        type: "h2",
+        text: "Why this class of bug is Critical",
+      },
+      {
+        type: "p",
+        text: "When session verification fails, every feature that trusted a “logged-in user” becomes an unauthenticated surface. Downstream features — protected downloads, minting provider tokens, signing storage URLs — inherit the same break. One root cause often explains a chain of Critical findings.",
+      },
+      {
+        type: "h2",
+        text: "What I recommend to teams",
+      },
+      {
+        type: "ul",
+        items: [
+          "Verify signatures (or equivalent) on every privileged path — not only at the edge for some requests.",
+          "Never take the acting user id from an unverified cookie or request body.",
+          "Fail closed: missing secrets, misconfigured env, or verify errors should return 401, not continue as a privileged user.",
+          "Re-test after fixes by attempting the same trust-boundary mistakes, not only happy-path login.",
+        ],
+      },
+      {
+        type: "p",
+        text: "If you want this kind of review on your own application, the Work page has anonymized write-ups of related Critical findings, and the contact form is open for a short scoping call.",
+      },
+    ],
   },
   {
-    slug: "building-secure-react-applications",
-    title: "Building Secure React Applications: A Complete Guide",
+    slug: "finding-business-logic-and-idor",
+    title: "Finding Business Logic Flaws and Broken Access Control",
     excerpt:
-      "Best practices for implementing security in React applications, covering XSS prevention, secure authentication, and data protection strategies.",
-    content: `
-    <h2>Introduction</h2><br/>
-    <p>
-      React is one of the most popular libraries for building modern web applications due to its flexibility and efficiency.
-      However, security is often an afterthought, leaving applications vulnerable to attacks such as XSS, data leaks, and token theft.
-      This guide will help you implement best practices to secure your React apps in 2024 and beyond.
-    </p><br/>
-
-    <h2>Common Security Risks in React Applications</h2><br/>
-    <p>
-      Understanding potential threats is the first step toward building secure applications. Here are some common risks:
-    </p>
-    <ul>
-      <li><strong>Cross-Site Scripting (XSS):</strong> Injecting malicious scripts into the DOM via untrusted data.</li>
-      <li><strong>Hardcoded Secrets:</strong> Storing API keys and tokens in client-side code makes them easy targets.</li>
-      <li><strong>Insecure Authentication:</strong> Weak authentication mechanisms can allow unauthorized access.</li>
-      <li><strong>Improper Token Storage:</strong> Storing JWT tokens in localStorage exposes them to XSS attacks.</li>
-    </ul><br/>
-
-    <h2>Best Practices for Securing React Apps</h2><br/>
-    <ul>
-      <li><strong>Sanitize User Input:</strong> Use libraries like <code>DOMPurify</code> to clean dynamic HTML content before rendering.</li>
-      <li><strong>Avoid dangerouslySetInnerHTML:</strong> This method disables React's XSS protection and should only be used when absolutely necessary.</li>
-      <li><strong>Use Environment Variables:</strong> Keep sensitive data out of your codebase by using environment variables for API keys.</li>
-      <li><strong>Enable HTTPS:</strong> Always deploy your application over HTTPS to prevent man-in-the-middle attacks.</li>
-      <li><strong>Implement CSP (Content Security Policy):</strong> Restrict scripts and resources to trusted sources only.</li>
-      <li><strong>Use HttpOnly Cookies:</strong> Store authentication tokens in HttpOnly cookies instead of localStorage.</li>
-    </ul><br/>
-
-    <h2>Secure Authentication & Authorization</h2><br/>
-    <p>
-      Implement OAuth 2.0 or JWT-based authentication with refresh tokens. Always enforce role-based access control (RBAC) to protect sensitive routes.
-    </p><br/>
-
-    <h2>Conclusion</h2><br/>
-    <p>
-      Securing your React application is not a one-time task but an ongoing process. By applying these best practices,
-      you can reduce security risks and build reliable applications that protect user data.
-    </p><br/>
-  `,
-    date: "2024-01-10",
-    readTime: "12 min read",
-    category: "Development",
-    tags: ["React", "Security", "Frontend", "Authentication"],
-    author: {
-      name: "John Doe",
-      role: "Full Stack Developer",
-      avatar: "/images/authors/john.jpg",
-    },
-    featured: true,
-  },
-  {
-    slug: "api-security-gateway-implementation",
-    title: "API Security Gateway Implementation: A Complete Guide",
-    excerpt:
-      "Learn how to implement an API security gateway to protect your microservices architecture with authentication, rate limiting, and threat prevention strategies.",
-    content: `
-    <h2>Introduction</h2><br/>
-    <p>
-      APIs are the backbone of modern web applications and microservices architectures.
-      However, unsecured APIs are a prime target for attackers, leading to data breaches and service disruptions.
-      Implementing an API security gateway is essential to protect your services from common threats like API abuse, data leaks, and DDoS attacks.
-    </p><br/>
-
-    <h2>What is an API Gateway?</h2><br/>
-    <p>
-      An API gateway acts as a single entry point for client requests, routing them to the appropriate microservices.
-      Besides routing, it adds security layers such as authentication, authorization, rate limiting, and logging.
-    </p><br/>
-
-    <h2>Key Security Features of an API Gateway</h2><br/>
-    <ul>
-      <li><strong>Authentication & Authorization:</strong> Validate user credentials using OAuth 2.0, JWT, or API keys.</li>
-      <li><strong>Rate Limiting & Throttling:</strong> Prevent API abuse and brute-force attacks by controlling request frequency.</li>
-      <li><strong>Data Encryption:</strong> Enforce HTTPS for secure data transmission.</li>
-      <li><strong>Threat Detection:</strong> Block SQL injection, XSS, and API fuzzing attempts using WAF (Web Application Firewall) rules.</li>
-      <li><strong>Logging & Monitoring:</strong> Track API activity to detect anomalies and potential attacks in real-time.</li>
-    </ul><br/>
-
-    <h2>Steps to Implement an API Security Gateway</h2><br/>
-    <ol>
-      <li><strong>Choose a Gateway:</strong> Popular options include <code>Kong</code>, <code>NGINX API Gateway</code>, and <code>Amazon API Gateway</code>.</li>
-      <li><strong>Set Up Authentication:</strong> Integrate OAuth 2.0 or JWT for secure access control.</li>
-      <li><strong>Enable Rate Limiting:</strong> Define request limits per user or IP to prevent abuse.</li>
-      <li><strong>Configure HTTPS:</strong> Use SSL/TLS certificates for all API traffic.</li>
-      <li><strong>Apply WAF Rules:</strong> Filter out malicious requests and block known attack patterns.</li>
-      <li><strong>Enable Monitoring:</strong> Use tools like <code>Prometheus</code> and <code>Grafana</code> for real-time API analytics.</li>
-    </ol><br/>
-
-    <h2>Best Practices for API Security</h2><br/>
-    <ul>
-      <li>Always validate and sanitize inputs at both client and server ends.</li>
-      <li>Rotate API keys and tokens regularly.</li>
-      <li>Use short-lived tokens with refresh tokens for authentication.</li>
-      <li>Implement IP whitelisting for sensitive APIs.</li>
-      <li>Regularly audit your API endpoints for vulnerabilities.</li>
-    </ul><br/>
-
-    <h2>Conclusion</h2><br/>
-    <p>
-      Implementing an API security gateway is crucial for safeguarding APIs in today's threat landscape.
-      By following these steps and best practices, you can significantly reduce security risks and ensure the integrity of your microservices architecture.
-    </p><br/>
-
-    <hr/>
-  `,
-    date: "2024-02-05",
+      "Scanners are weak at business logic. Here is how I hunt IDOR, missing ownership filters, and approval bypasses — the bugs that let Account A touch Account B’s data.",
+    date: "2026-09-25",
     readTime: "10 min read",
-    category: "Security",
-    tags: ["API Security", "Gateway", "OAuth 2.0", "JWT", "Microservices"],
-    author: {
-      name: "Arif Rahman",
-      role: "Cybersecurity Enthusiast",
-      avatar: "/images/authors/arif.jpg",
-    },
+    category: "Methodology",
+    tags: [
+      "Business Logic",
+      "IDOR",
+      "Access Control",
+      "Ownership Checks",
+    ],
     featured: true,
+    blocks: [
+      {
+        type: "p",
+        text: "Broken access control rarely looks like a flashy payload. It looks like a normal request with someone else’s object id — and a response that should have been 403. In shared applications, that mistake is often Critical: the feature works, the permission flag looks right, and the query simply never checks ownership.",
+      },
+      {
+        type: "callout",
+        text: "This post is methodology only. No client names, product details, record types, endpoints, or proof steps.",
+      },
+      {
+        type: "h2",
+        text: "What I look for",
+      },
+      {
+        type: "ul",
+        items: [
+          "Object-level access: can a user read or change another account’s record by swapping an id?",
+          "Function-level access: can a lower role call an admin-only action if they know the route?",
+          "List endpoints that return every record with no ownership or account filter.",
+          "Archive or soft-delete paths that still return or mutate records that should be gone.",
+          "Background jobs that write data under a system context with weaker checks than the UI.",
+        ],
+      },
+      {
+        type: "h2",
+        text: "A practical testing rhythm",
+      },
+      {
+        type: "ol",
+        items: [
+          "Create two accounts (or two roles) with clear separation of data.",
+          "Perform legitimate actions as Account A and note the object ids returned.",
+          "Replay the same reads and writes as Account B, changing only the id.",
+          "Repeat for create flows: does create bind the new row to the caller, or to a client-supplied owner id?",
+          "Check supporting APIs — search, exports, webhooks — not only the main screens.",
+        ],
+      },
+      {
+        type: "h2",
+        text: "Business logic beyond IDOR",
+      },
+      {
+        type: "p",
+        text: "Logic flaws also show up as skipped approvals, mismatched ownership on automated jobs, and features that trust a client flag for “premium” or “approved.” If the server does not re-check entitlement on every protected action, the UI gate is decoration.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Approval or review steps that can be skipped by calling the final write API directly.",
+          "Automations that attach data to the wrong account because of a weak match rule.",
+          "Entitlements checked once in the browser and never again on the API.",
+        ],
+      },
+      {
+        type: "h2",
+        text: "How I write these up for clients",
+      },
+      {
+        type: "p",
+        text: "Stakeholders need impact, not jargon. I describe what another user or account could see or change, why that matters, and the smallest server-side ownership check that closes the path. Every finding is manually verified before it goes in the report.",
+      },
+    ],
   },
-];
+  {
+    slug: "critical-chains-one-auth-bug",
+    title: "Critical Chains: When One Auth Bug Unlocks Everything",
+    excerpt:
+      "Some Criticals are not isolated. A forgeable session can turn protected downloads, token minting, and signed URLs into an unauthenticated attack surface. How I map and report those chains.",
+    date: "2026-10-02",
+    readTime: "8 min read",
+    category: "Findings",
+    tags: ["Critical", "Attack Chains", "Impact", "Reporting"],
+    featured: true,
+    blocks: [
+      {
+        type: "p",
+        text: "On deeper assessments I often find a single root cause with many symptoms. The report lists several Criticals — protected resource access, identity minting, signed downloads — but they share one broken gate. Clients understand priority better when that chain is explicit.",
+      },
+      {
+        type: "h2",
+        text: "A typical chain pattern",
+      },
+      {
+        type: "ol",
+        items: [
+          "Root: privileged routes trust an unverified session cookie or header.",
+          "Branch A: a resource handler returns protected content with no ownership check beyond that session.",
+          "Branch B: an identity endpoint mints a real provider token for whatever user id appears in the cookie.",
+          "Branch C: a signing endpoint returns short-lived download URLs for arbitrary storage keys.",
+        ],
+      },
+      {
+        type: "p",
+        text: "Fixing only Branch A leaves Branches B and C open. Fixing the root collapses the chain. That is why remediation order matters as much as severity labels.",
+      },
+      {
+        type: "h2",
+        text: "Other Critical patterns I escalate early",
+      },
+      {
+        type: "ul",
+        items: [
+          "Unauthenticated SSRF: a public route that fetches any caller-supplied URL from the server.",
+          "Fail-open webhooks: callbacks that accept writes when a shared secret is missing or unset.",
+          "Proxy bypass: the application process reachable without the TLS / rate-limit front door.",
+          "Broken list APIs: authenticated users pulling another account’s full dataset.",
+        ],
+      },
+      {
+        type: "callout",
+        text: "I never publish exploit procedures or identifying infrastructure details. Portfolio write-ups stay at issue → impact → resolution.",
+      },
+      {
+        type: "h2",
+        text: "Reporting so engineering can act",
+      },
+      {
+        type: "p",
+        text: "Each Critical in my reports includes what failed, why it matters in business terms, impact if abused, and a concrete fix. Related findings are cross-linked so the team can schedule root-cause work first, then re-test the whole chain — not one ticket at a time in isolation.",
+      },
+    ],
+  },
+  {
+    slug: "fail-open-webhooks-and-integrations",
+    title: "Fail-Open Webhooks and Integration Secrets",
+    excerpt:
+      "Integrations fail open more often than teams expect: missing env secrets disable auth instead of blocking the request. How I test callbacks and worker writebacks.",
+    date: "2026-10-12",
+    readTime: "7 min read",
+    category: "Methodology",
+    tags: ["Webhooks", "Integrations", "Secrets", "API Security"],
+    featured: false,
+    blocks: [
+      {
+        type: "p",
+        text: "Modern apps depend on third-party callbacks, background workers, and automation hooks. Those paths often sit outside the main login flow — and that is exactly where fail-open patterns hide.",
+      },
+      {
+        type: "h2",
+        text: "The anti-pattern",
+      },
+      {
+        type: "p",
+        text: "Code that says “if a secret is configured and the header does not match, reject” quietly accepts traffic when the secret is empty. Staging works. Production misconfiguration becomes an unauthenticated write into the application’s data store.",
+      },
+      {
+        type: "h2",
+        text: "How I test integrations",
+      },
+      {
+        type: "ul",
+        items: [
+          "Identify every callback and inbound route that mutates data.",
+          "Confirm secrets are required at boot — the process should refuse to start without them.",
+          "Verify comparison is constant-time and not optional when the header is absent.",
+          "Check that forged payloads cannot land on another account’s records via a guessable id.",
+          "Review whether workers re-check ownership before mutating records.",
+        ],
+      },
+      {
+        type: "h2",
+        text: "Why clients care",
+      },
+      {
+        type: "p",
+        text: "Unauthenticated writes poison the system of record: fake or malicious data created by strangers. Even without a full data dump, integrity loss can be as damaging as confidentiality loss.",
+      },
+      {
+        type: "p",
+        text: "Remediation is usually straightforward: one secret name, fail closed, shared middleware, rate limits, and a re-test that proves the open path is gone.",
+      },
+    ],
+  },
+]
+
+export function getBlogPost(slug: string): BlogPost | undefined {
+  return blogPosts.find((post) => post.slug === slug)
+}
+
+export function getFeaturedPosts(): BlogPost[] {
+  return blogPosts.filter((post) => post.featured)
+}
+
+export function formatBlogDate(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(`${date}T12:00:00`))
+}

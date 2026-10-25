@@ -5,6 +5,9 @@ import { motion, useReducedMotion } from "motion/react"
 /** Real service keywords only — decorative repetition of what the site does. */
 const items = [
   "Web application penetration testing",
+  "Authentication & session testing",
+  "Broken access control / IDOR",
+  "Business logic review",
   "API security assessment",
   "Secure full-stack development",
   "Fix verification",

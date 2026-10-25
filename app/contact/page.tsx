@@ -15,7 +15,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHero
-        index="06"
+        index="07"
         label="Contact"
         title="Let's talk about what you need secured."
         description="Have a project, a security concern or a role in mind? Send a short message — or start with the free 15-minute consultation call and we will work out the scope together."

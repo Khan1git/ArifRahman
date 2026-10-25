@@ -26,3 +26,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# private engagement materials — never publish
+CASEFILE_FINAL_SECURITY_REVIEW.pdf
+pdf_*.txt
+pdf_extract.txt
+pdf_hits.txt
+pdf_text.txt

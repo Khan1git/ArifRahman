@@ -10,7 +10,7 @@ import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata({
   title: "Work",
   description:
-    "Anonymized write-ups of real production vulnerabilities — remote code execution, SSRF, path traversal and a subscription bypass — each with issue, impact and resolution.",
+    "Anonymized write-ups of real production Critical findings — forgeable sessions, broken access control, unauthenticated SSRF, fail-open webhooks and stored XSS — each with issue, impact and resolution.",
   path: "/work",
 })
 
@@ -59,7 +59,7 @@ export default function WorkPage() {
         index="04"
         label="Work"
         title="Real findings, explained in plain language."
-        description="Four vulnerabilities identified in production web applications during security assessments — what was wrong, why it mattered, and how each one was fixed."
+        description="Five Critical vulnerabilities identified in production web applications during security assessments — what was wrong, why it mattered, and how each one was fixed."
       >
         <div className="mt-8 flex max-w-2xl items-start gap-3 rounded-xl border border-border bg-card/60 p-4">
           <ShieldCheck
