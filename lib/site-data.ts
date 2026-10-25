@@ -19,6 +19,7 @@ export const navItems = [
   { href: "/services", label: "Services" },
   { href: "/how-i-work", label: "How I Work" },
   { href: "/work", label: "Work" },
+  { href: "/blog", label: "Blog" },
   { href: "/resume", label: "Resume" },
   { href: "/contact", label: "Contact" },
 ] as const
@@ -29,6 +30,7 @@ export const footerLinks = [
   { href: "/services", label: "Services" },
   { href: "/how-i-work", label: "How I Work" },
   { href: "/work", label: "Work" },
+  { href: "/blog", label: "Blog" },
   { href: "/resume", label: "Resume" },
   { href: "/contact", label: "Contact" },
   { href: "/privacy", label: "Privacy" },
@@ -55,9 +57,10 @@ export const homeStats = [
     detail: "Achieved on shipped production work across performance, SEO and accessibility.",
   },
   {
-    value: "4",
-    label: "Security certifications",
-    detail: "Coursera, APISEC University, Udemy and TCM Security.",
+    value: "5",
+    label: "Anonymized Critical write-ups",
+    detail:
+      "Real production findings on the Work page — auth breaks, access control, SSRF and integration failures.",
   },
 ] as const
 
@@ -72,10 +75,11 @@ export const servicesDetailed = [
       "Manual and tool-assisted testing of your web application against the OWASP Top 10 and beyond — covering authentication, access control, input handling and business logic.",
     includes: [
       "Authentication, session handling and account recovery flows",
-      "Broken access control and privilege escalation paths",
+      "Broken access control, IDOR and account isolation",
       "Injection testing — XSS, SQL injection and related classes",
       "SSRF, path traversal and unsafe file handling",
-      "Business logic flaws and race conditions",
+      "Business logic flaws, approval bypasses and race conditions",
+      "Webhook / integration auth — fail-open secrets and callbacks",
       "Manual verification of every finding — no unverified scanner output",
     ],
     deliverables: [
@@ -175,7 +179,7 @@ export const testingMethodology = [
     number: "03",
     title: "Manual & Tool-Assisted Testing",
     description:
-      "I test systematically against the OWASP Top 10 and beyond, using manual analysis alongside Burp Suite, OWASP ZAP, Nikto and Kali Linux. Manual testing matters most — scanners catch surface-level issues, but logic flaws like broken access control or subscription bypasses require thinking through how a feature could be misused.",
+      "I test systematically against the OWASP Top 10 and beyond, using manual analysis alongside Burp Suite, OWASP ZAP, Nikto and Kali Linux. Manual testing matters most — scanners catch surface-level issues, but logic flaws like broken access control, forgeable sessions, or fail-open webhooks require thinking through how a feature could be misused.",
   },
   {
     number: "04",
@@ -282,6 +286,10 @@ export const skillGroups = [
     description: "Manual and tool-assisted testing against real attack paths.",
     skills: [
       "Web & API Penetration Testing",
+      "Authentication & Session Testing",
+      "Broken Access Control / IDOR",
+      "Business Logic Flaws",
+      "Account / Tenant Isolation",
       "XSS",
       "SQL Injection",
       "CSRF",
@@ -290,7 +298,7 @@ export const skillGroups = [
       "RCE",
       "Privilege Escalation",
       "Race Conditions",
-      "Broken Access Control",
+      "Webhook & Integration Security",
       "OWASP Top 10",
       "OWASP WebGoat",
       "Burp Suite",
@@ -323,7 +331,7 @@ export const experience = {
       title: "Security work",
       bullets: [
         "Ran security testing and vulnerability assessments using Burp Suite, OWASP ZAP, Nikto and Kali Linux.",
-        "Identified and documented real production vulnerabilities — the anonymized write-ups are on the Work page.",
+        "Identified Critical and High issues in production systems: forgeable sessions, broken access control, unauthenticated SSRF, fail-open webhooks, and related gaps — anonymized write-ups are on the Work page.",
         "Worked directly with developers to remediate findings, and verified that each fix actually closed the issue.",
       ],
     },
@@ -356,52 +364,64 @@ export type Severity = "Critical" | "High"
 
 export const caseStudies = [
   {
-    id: "rce",
+    id: "forgeable-session",
     number: "01",
-    title: "Remote Code Execution via Unsafe File Handling",
+    title: "Privileged Session Trusted Without Cryptographic Verification",
     severity: "Critical" as Severity,
     issue:
-      "During a security assessment of a production web application, a file-handling feature was found to accept and process user-supplied files without sufficient validation of file type and content.",
+      "During a security assessment of a production web application, privileged API routes treated a browser cookie as proof of identity after checking only that the token-shaped string had a future expiry. The cryptographic signature was never verified. Anyone who could set a cookie could present a fabricated identity.",
     impact:
-      "If exploited, this could have allowed an attacker to execute arbitrary code on the server, potentially gaining full control of the application and access to any data it stored.",
+      "Unauthenticated callers were treated as privileged users on every route that trusted that check. The same root cause unlocked downstream Critical paths — protected resource access, identity-token minting, and signed storage URLs — turning one auth mistake into a full trust-boundary failure.",
     resolution:
-      "Worked with the development team to implement strict file type validation, content verification, and isolated storage for uploaded files outside any directory capable of executing code. The fix was manually re-tested and confirmed to fully resolve the issue.",
+      "Recommended verifying tokens with a pinned algorithm on every privileged handler, rejecting altered cookies with HTTP 401, and never taking acting user identity from an unverified cookie. After remediation, the forgeable-session path was re-tested and confirmed closed.",
   },
   {
-    id: "ssrf",
+    id: "broken-access-control",
     number: "02",
-    title: "Server-Side Request Forgery in an Internal Request Feature",
-    severity: "High" as Severity,
+    title: "Broken Access Control on Object-Level APIs",
+    severity: "Critical" as Severity,
     issue:
-      "A feature that allowed the application to fetch content from a user-supplied URL did not restrict which destinations the server was allowed to reach.",
+      "Multiple record APIs filtered by object id alone and never confirmed that the target belonged to the caller’s account. List endpoints similarly omitted an ownership filter, so an authenticated user in one account could read or modify another account’s records.",
     impact:
-      "This could have let an attacker force the server to make requests to internal systems that were never meant to be publicly reachable, potentially exposing internal services or cloud metadata.",
+      "Cross-account data exposure and unauthorized modification — the exact failure mode shared applications exist to prevent. Records marked inactive or archived were also still readable and mutable in some paths.",
     resolution:
-      "Recommended and verified a fix that restricted outbound requests to an approved allow-list of destinations and blocked requests to internal/private IP ranges. Re-tested after the fix to confirm the restriction held under multiple bypass attempts.",
+      "Worked with the team to require ownership-scoped queries on every read and write, bind creates to the authenticated account, and exclude inactive records from mutable paths. Re-tested with two-account replay of the original object ids to confirm isolation held.",
   },
   {
-    id: "path-traversal",
+    id: "unauth-ssrf",
     number: "03",
-    title: "Path Traversal in a File Access Feature",
-    severity: "High" as Severity,
+    title: "Unauthenticated Server-Side Request Forgery",
+    severity: "Critical" as Severity,
     issue:
-      "A file-retrieval feature accepted a file path or filename directly from user input without properly restricting it to an intended directory.",
+      "A public API route accepted an arbitrary URL and caused the server to fetch it. The path was not covered by authentication middleware and did not restrict destinations to an allow-list.",
     impact:
-      "An attacker could potentially manipulate the input to access files outside the intended folder, including sensitive configuration or system files.",
+      "Attackers on the public internet could coerce the server into requesting internal hosts or cloud metadata endpoints, enabling internal recon and potential credential or service exposure from the application’s network position.",
     resolution:
-      "Worked with the team to implement proper input sanitization and enforce that all file access resolved strictly within an allowed directory, regardless of the input provided. Verified the fix through manual re-testing.",
+      "Recommended requiring a verified session, allow-listing only intended feed destinations, blocking private and link-local ranges, and avoiding detailed fetch-error echo. Re-tested to confirm unauthorized and private-target requests were rejected.",
   },
   {
-    id: "payment-bypass",
+    id: "fail-open-webhook",
     number: "04",
-    title: "Subscription Tier Bypass via Request Manipulation",
-    severity: "High" as Severity,
+    title: "Fail-Open Webhook Authentication on Integration Callbacks",
+    severity: "Critical" as Severity,
     issue:
-      "The application's premium features were gated on the client side and verified with a request parameter that was not properly re-validated on the server for every protected action.",
+      "Inbound integration callbacks (worker writebacks and similar webhook handlers) used a pattern that only rejected requests when a shared secret was both configured and mismatched. When the secret was missing or unset, authentication was effectively disabled and unauthenticated writes were accepted.",
     impact:
-      "A user on a free or lower-tier plan could potentially access paid features without a valid subscription, directly affecting revenue and the integrity of the subscription model.",
+      "Strangers could inject or update records through integration callbacks — damaging data integrity even when classic login remained intact. Misconfigured environments became an open write surface.",
     resolution:
-      "Recommended moving all entitlement checks to be enforced server-side on every protected request, rather than trusting client-supplied state. Verified the fix by attempting the bypass again post-remediation and confirming it was no longer possible.",
+      "Recommended failing closed at boot if secrets are absent, using a single secret name with constant-time comparison, and shared middleware on every callback. Re-tested with missing and wrong secrets to confirm writes were refused.",
+  },
+  {
+    id: "stored-xss-session",
+    number: "05",
+    title: "Stored XSS with Report-Only Content Security Policy",
+    severity: "Critical" as Severity,
+    issue:
+      "A rich-text / user-content renderer inserted unsanitized input into an HTML attribute on a code path that bypassed the usual sanitizer. Content Security Policy for scripts was report-only / overly permissive, so the browser did not block execution.",
+    impact:
+      "Script ran in the context of every viewer of the poisoned content. Combined with session-bearing requests from the same origin, this enabled session abuse and further actions as the victim user.",
+    resolution:
+      "Recommended escaping all dynamic captures, routing rich text through a single sanitizer, and enforcing CSP with nonces instead of report-only mode. Verified the original injection no longer executed after the fix.",
   },
 ] as const
 

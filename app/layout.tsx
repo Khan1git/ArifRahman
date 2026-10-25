@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import Navigation from "@/components/navigation"
 import { SiteFooter } from "@/components/site-footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { fontDisplay, fontMono, fontSans } from "@/lib/fonts"
 import { structuredData } from "@/lib/structured-data"
 import { site } from "@/lib/site-data"
 import "./globals.css"
@@ -77,7 +76,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} ${GeistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}>
+      <body
+        className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

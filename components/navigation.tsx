@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
+import { SiteLogo } from "@/components/site-logo"
 import { navItems } from "@/lib/site-data"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -52,18 +53,7 @@ export default function Navigation() {
       )}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-6 lg:px-8">
-        <Link
-          href="/"
-          className="group flex shrink-0 items-center gap-2.5"
-          aria-label="Arif Rahman — home"
-        >
-          <span className="grid size-8 place-items-center rounded-lg border border-border bg-card font-mono text-xs font-semibold text-primary transition-colors group-hover:border-primary/50">
-            AR
-          </span>
-          <span className="text-sm font-semibold tracking-tight">
-            Arif Rahman
-          </span>
-        </Link>
+        <SiteLogo />
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => {

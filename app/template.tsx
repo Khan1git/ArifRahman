@@ -2,7 +2,10 @@
 
 import { motion, useReducedMotion } from "motion/react"
 
-/** Route-level entrance transition — a simple fade/slide, entrance only. */
+/**
+ * Route entrance — light slide only. Do NOT start at opacity 0:
+ * if client JS fails to load, opacity-0 would leave the whole page blank.
+ */
 export default function Template({ children }: { children: React.ReactNode }) {
   const reduce = useReducedMotion()
 
@@ -12,8 +15,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ y: 8 }}
+      animate={{ y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 0.61, 0.36, 1] }}
     >
       {children}

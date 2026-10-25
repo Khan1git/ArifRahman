@@ -26,9 +26,10 @@ export function Reveal({ children, className, delay = 0, y = 18 }: RevealProps) 
     <motion.div
       data-reveal=""
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
+      // Avoid opacity: 0 initial — blank page if client JS never hydrates.
+      initial={{ y }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: true, amount: 0.15, margin: "0px 0px -40px 0px" }}
       transition={{ duration: 0.55, delay, ease: [0.22, 0.61, 0.36, 1] }}
     >
       {children}

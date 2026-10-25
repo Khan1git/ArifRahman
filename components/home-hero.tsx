@@ -41,8 +41,8 @@ function Stage({
     <motion.div
       data-reveal=""
       className={className}
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ y: 14 }}
+      animate={{ y: 0 }}
       transition={{ duration: 0.6, delay, ease: EASE }}
     >
       {children}
@@ -104,7 +104,7 @@ export function HomeHero() {
           </p>
         </Stage>
 
-        <h1 className="mt-8 text-[clamp(2.5rem,6.5vw,5.5rem)] font-semibold leading-[1.04] tracking-[-0.03em] sm:mt-10">
+        <h1 className="font-display mt-8 text-[clamp(2.5rem,6.5vw,5.5rem)] font-semibold leading-[1.04] tracking-[-0.035em] sm:mt-10">
           {lines.map((words, lineIndex) => (
             <span
               key={headline[lineIndex].text}
@@ -119,8 +119,8 @@ export function HomeHero() {
                   <motion.span
                     data-reveal=""
                     className="inline-block"
-                    initial={reduce ? false : { opacity: 0, y: "0.42em" }}
-                    animate={reduce ? undefined : { opacity: 1, y: "0em" }}
+                    initial={reduce ? false : { y: "0.35em" }}
+                    animate={reduce ? undefined : { y: "0em" }}
                     transition={{
                       duration: 0.7,
                       delay: 0.15 + (offsets[lineIndex] + wordIndex) * 0.055,

@@ -41,7 +41,7 @@ export default function ResumePage() {
   return (
     <>
       <PageHero
-        index="05"
+        index="06"
         label="Resume"
         title="Arif Rahman"
         description="Full Stack Developer & Web Security Researcher. The complete resume, readable on the web."
